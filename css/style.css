@@ -125,31 +125,39 @@ time {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
-  max-width: 1800px;
+  max-width: 1200px;   /* cap width so widgets don't stretch too wide on laptops */
   margin-inline: auto;
 }
 
-/* 2-column layout at ≥ 640px */
+/* 2-column layout at ≥ 640px — tablet and up */
 @media (min-width: 640px) {
   .dashboard-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* 4-column layout at ≥ 1280px */
-@media (min-width: 1280px) {
+/* 2×2 grid feels best on laptop screens (1024–1439px).
+   Keeps max-width tight so widgets stay readable. */
+@media (min-width: 1024px) {
+  body {
+    padding: var(--space-xl) var(--space-xl);
+  }
   .dashboard-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+    max-width: 1100px;
   }
 }
 
-/* Comfortable padding on large screens */
+/* 4-column layout only on genuinely wide displays (≥ 1600px) */
 @media (min-width: 1600px) {
   body {
     padding: var(--space-2xl) var(--space-xl);
   }
   .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-xl);
+    max-width: 1800px;
   }
 }
 
@@ -215,7 +223,7 @@ time {
 
 .focus-timer__display {
   font-family: var(--font-mono);
-  font-size: clamp(3rem, 10vw, 5rem);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--color-text);
