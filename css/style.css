@@ -1,0 +1,505 @@
+/* ============================================================
+   Personal Dashboard — style.css
+   Viewport range: 320px – 2560px
+   ============================================================ */
+
+/* ── Custom Properties ──────────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-bg:          #0f1117;
+  --color-surface:     #1a1d27;
+  --color-surface-alt: #22263a;
+  --color-border:      #2e3250;
+  --color-text:        #e8eaf6;
+  --color-text-muted:  #8b91b8;
+  --color-accent:      #6c63ff;
+  --color-accent-hover:#5a52e0;
+  --color-danger:      #e05555;
+  --color-danger-hover:#c44444;
+  --color-success:     #4caf7d;
+
+  /* Typography */
+  --font-base: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* Spacing */
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+}
+
+/* ── CSS Reset / Base ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100dvh;
+  padding: var(--space-lg) var(--space-md);
+  overflow-x: hidden;
+  /* Cap content width on ultra-wide displays (≥ 2560px) */
+  max-width: 2560px;
+  margin-inline: auto;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Accessibility ──────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Dashboard Header ───────────────────────────────────────── */
+.dashboard-header {
+  margin-bottom: var(--space-lg);
+}
+
+/* ── Dashboard Grid ─────────────────────────────────────────── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  max-width: 1800px;
+  margin-inline: auto;
+}
+
+/* 2-column layout at ≥ 640px */
+@media (min-width: 640px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 4-column layout at ≥ 1280px */
+@media (min-width: 1280px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Comfortable padding on large screens */
+@media (min-width: 1600px) {
+  body {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+  .dashboard-grid {
+    gap: var(--space-xl);
+  }
+}
+
+/* ── Widget Base ────────────────────────────────────────────── */
+.widget {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  /* Prevent widgets from collapsing below a readable size */
+  min-width: 0;
+}
+
+.widget__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Greeting Widget ────────────────────────────────────────── */
+.greeting-widget__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.greeting-widget__greeting {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.greeting-widget__time {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.greeting-widget__date {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  color: var(--color-text-muted);
+}
+
+/* ── Focus Timer Widget ─────────────────────────────────────── */
+.focus-timer__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.focus-timer__display {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.focus-timer__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+/* Challenge: custom duration form */
+.focus-timer__duration-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.focus-timer__duration-label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.focus-timer__duration-input {
+  width: 5rem;
+  text-align: center;
+}
+
+/* ── Task Manager Widget ────────────────────────────────────── */
+.task-manager__form {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.task-manager__form .input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Challenge: duplicate task error message */
+.task-manager__error {
+  font-size: 0.8125rem;
+  color: var(--color-danger);
+  min-height: 1.2em; /* reserve space so layout doesn't jump */
+  padding: 0 var(--space-xs);
+}
+
+/* Challenge: sort toolbar */
+.task-manager__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.task-manager__sort-label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.task-manager__sort-select {
+  flex: 1;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.task-manager__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* Individual task row (rendered by JS) */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.task-item:hover {
+  background: var(--color-border);
+}
+
+.task-item__label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.task-item--completed .task-item__label {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+/* ── Link Manager Widget ────────────────────────────────────── */
+.link-manager__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 560px) {
+  .link-manager__form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.link-manager__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* Individual link row (rendered by JS) */
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.link-item:hover {
+  background: var(--color-border);
+}
+
+.link-item__btn {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-accent);
+  font-size: 0.9375rem;
+  transition: color var(--transition-fast);
+}
+
+.link-item__btn:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* Rendered by JS as <a class="btn btn--primary link-item__link"> */
+.link-item__link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* ── Responsive: 320px baseline ──────────────────────────────── */
+/* Single-column layout is already handled by the default 1fr grid.
+   Widgets always occupy full width at ≤ 639px, so no column can be
+   narrower than the viewport (minimum supported: 320px). */
+
+/* Task form: prevent Add button from overflowing narrow viewports */
+@media (max-width: 639px) {
+  .task-manager__form {
+    flex-wrap: wrap;
+  }
+}
+
+/* ── Shared Input ────────────────────────────────────────────── */
+.input {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  padding: var(--space-sm) var(--space-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.25);
+  outline: none;
+}
+
+/* Ensure <select> elements styled with .input render correctly */
+select.input {
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+/* ── Shared Button Styles ───────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background var(--transition-fast), color var(--transition-fast),
+              opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.btn--secondary {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--color-border);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+}
+
+.btn--danger {
+  background: transparent;
+  color: var(--color-danger);
+  border: 1px solid transparent;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: rgba(224, 85, 85, 0.15);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Scrollbar Styling (Chromium / WebKit) ──────────────────── */
+.task-manager__list::-webkit-scrollbar,
+.link-manager__list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-manager__list::-webkit-scrollbar-track,
+.link-manager__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.task-manager__list::-webkit-scrollbar-thumb,
+.link-manager__list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}

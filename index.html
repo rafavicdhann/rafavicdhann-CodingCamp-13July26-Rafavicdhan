@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal browser dashboard — clock, focus timer, tasks, and quick links." />
+  <title>Personal Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1 class="visually-hidden">Personal Dashboard</h1>
+  </header>
+
+  <main class="dashboard-grid">
+
+    <!-- ── Greeting Widget ──────────────────────────────────────────── -->
+    <section id="greeting-widget" class="widget" aria-label="Greeting and clock">
+      <div class="greeting-widget__inner">
+        <p id="greeting-text" class="greeting-widget__greeting" aria-live="polite">Good Morning</p>
+        <time id="clock-display" class="greeting-widget__time" datetime="">00:00:00</time>
+        <p id="date-display" class="greeting-widget__date" aria-live="polite">Loading date…</p>
+      </div>
+    </section>
+
+    <!-- ── Focus Timer ───────────────────────────────────────────────── -->
+    <section id="focus-timer" class="widget" aria-label="Focus timer">
+      <h2 class="widget__title">Focus Timer</h2>
+      <div class="focus-timer__body">
+        <time id="timer-display" class="focus-timer__display" datetime="PT25M">25:00</time>
+        <div class="focus-timer__controls" role="group" aria-label="Timer controls">
+          <button id="timer-start" class="btn btn--primary" type="button">Start</button>
+          <button id="timer-stop"  class="btn btn--secondary" type="button" disabled>Stop</button>
+          <button id="timer-reset" class="btn btn--ghost" type="button">Reset</button>
+        </div>
+        <!-- Challenge: custom Pomodoro duration -->
+        <form id="timer-duration-form" class="focus-timer__duration-form" novalidate>
+          <label for="timer-duration-input" class="focus-timer__duration-label">Minutes</label>
+          <input
+            id="timer-duration-input"
+            class="input focus-timer__duration-input"
+            type="number"
+            min="1"
+            max="99"
+            value="25"
+            aria-label="Custom timer duration in minutes"
+          />
+          <button class="btn btn--ghost" type="submit">Set</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── Task Manager ──────────────────────────────────────────────── -->
+    <section id="task-manager" class="widget" aria-label="Task manager">
+      <h2 class="widget__title">Tasks</h2>
+      <form id="task-form" class="task-manager__form" novalidate>
+        <label for="task-input" class="visually-hidden">New task</label>
+        <input
+          id="task-input"
+          class="input"
+          type="text"
+          placeholder="Add a new task…"
+          autocomplete="off"
+          aria-label="New task label"
+        />
+        <button class="btn btn--primary" type="submit">Add</button>
+      </form>
+      <!-- Challenge: duplicate task error message -->
+      <p id="task-error" class="task-manager__error" role="alert" aria-live="assertive"></p>
+      <!-- Challenge: sort tasks -->
+      <div class="task-manager__toolbar">
+        <label for="task-sort" class="task-manager__sort-label">Sort:</label>
+        <select id="task-sort" class="input task-manager__sort-select" aria-label="Sort tasks">
+          <option value="default">Default</option>
+          <option value="az">A → Z</option>
+          <option value="completed-last">Completed last</option>
+        </select>
+      </div>
+      <ul id="task-list" class="task-manager__list" aria-label="Task list" aria-live="polite">
+        <!-- Tasks rendered by JS -->
+      </ul>
+    </section>
+
+    <!-- ── Link Manager ──────────────────────────────────────────────── -->
+    <section id="link-manager" class="widget" aria-label="Quick links">
+      <h2 class="widget__title">Quick Links</h2>
+      <form id="link-form" class="link-manager__form" novalidate>
+        <label for="link-label-input" class="visually-hidden">Link label</label>
+        <input
+          id="link-label-input"
+          class="input"
+          type="text"
+          placeholder="Label"
+          autocomplete="off"
+          aria-label="Link display label"
+        />
+        <label for="link-url-input" class="visually-hidden">Link URL</label>
+        <input
+          id="link-url-input"
+          class="input"
+          type="url"
+          placeholder="https://example.com"
+          autocomplete="off"
+          aria-label="Link URL"
+        />
+        <button class="btn btn--primary" type="submit">Add</button>
+      </form>
+      <ul id="link-list" class="link-manager__list" aria-label="Quick links list" aria-live="polite">
+        <!-- Links rendered by JS -->
+      </ul>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
